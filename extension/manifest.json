@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Promptium AI Firewall",
+  "version": "1.0",
+  "description": "Detects and blocks malicious AI prompts before they reach the model.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "storage", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
+
+
+
