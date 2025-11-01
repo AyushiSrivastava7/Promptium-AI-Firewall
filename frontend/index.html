@@ -1,155 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Promptium – AI Prompt Firewall</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptium - AI Firewall</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- ===== Navigation Bar ===== -->
-  <nav class="navbar">
-    <div class="logo">🛡️ Promptium</div>
-    <ul class="nav-links">
-      <li><a href="#" onclick="showSection('demo')">Demo</a></li>
-      <li><a href="#" onclick="showSection('features')">Features</a></li>
-      <li><a href="#" onclick="showSection('usecases')">Use Cases</a></li>
-      <li><a href="#" id="tryNowNavBtn" class="cta">Try Now</a></li>
-    </ul>
-  </nav>
-
-  <!-- ===== Hero Section ===== -->
-  <header class="hero">
-    <h1>Ready to Protect Your AI?</h1>
-    <p>Try our live demo and see how Promptium detects prompt injection threats in real-time.</p>
-  </header>
-
-  <main class="container">
-
-    <!-- ===== DEMO INTRO SECTION ===== -->
-    <section id="demoIntroSection" class="section">
-      <section class="card demo-intro-card">
-        <h2>🛡️ What Promptium Detects</h2>
-        <p>
-          Promptium protects your AI by detecting prompt injection attacks such as overrides, role hacks, encoding attacks, and attempts to leak or manipulate data. It analyzes prompts in real-time with smart classification to identify safe, risky, and suspicious inputs before they reach your AI.
-        </p>
-        <button id="tryNowBtn">Try Now</button>
-      </section>
-
-      <section class="card demo-steps-card">
-        <h2>🧪 How to Use Promptium</h2>
-        <div class="demo-step">
-          <h3>Step 1: Enter Your Prompt</h3>
-          <img src="step1.png" alt="Step 1 – Enter Prompt" />
-        </div>
-        <div class="demo-step">
-          <h3>Step 2: Analyze the Prompt</h3>
-          <img src="step2.png" alt="Step 2 – Analyze Prompt" />
-        </div>
-        <div class="demo-step">
-          <h3>Step 3: Review Results</h3>
-          <img src="step3.png" alt="Step 3 – Review Results" />
-        </div>
-      </section>
-    </section>
-
-    <!-- ===== DEMO SECTION ===== -->
-    <section id="demoSection" class="section" style="display:none;">
-      <section class="card input-card">
-        <h2>🔍 Enter your Prompt</h2>
-        <textarea id="promptInput" placeholder="Type or paste any prompt to analyze..."></textarea>
-        <button onclick="classifyPrompt()">Analyze Prompt</button>
-        <div id="loadingSpinner">⏳ Checking...</div>
-        <div id="resultBox"></div>
-      </section>
-
-      <section class="card chart-card">
-        <h2>📊 Prompt Classification Stats</h2>
-        <div style="width: 100%; max-width: 400px; margin: auto;">
-        <canvas id="promptChart" style="aspect-ratio: 1 / 1; width: 100%;"></canvas>
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <div class="left">
+            <div class="logo">🛡 <span class="brand">Promptium</span></div>
         </div>
 
-      </section>
+        <ul class="nav-links">
+            <li><a href="#" data-section="demo">Demo</a></li>
+            <li><a href="#" data-section="features">Features</a></li>
+            <li><a href="#" data-section="usecases">Use Cases</a></li>
+            <li><a href="#" id="tryNowNavBtn" class="cta coral-btn" data-section="tryNow">Try Now</a></li>
+        </ul>
 
-      <section class="card history-card">
-        <h2>📝 Prompt History</h2>
-        <button onclick="clearHistory()" id="clearHistoryBtn">🗑️ Clear History</button>
-        <ul id="historyList"></ul>
-      </section>
-    </section>
-
-    <!-- ===== FEATURES SECTION ===== -->
-    <section id="featuresSection" class="section" style="display:none;">
-      <section class="card capabilities-card">
-        <h2>⚙️ Key Capabilities</h2>
-        <div class="capabilities-grid">
-          <div class="capability">
-            <div class="icon">⚡</div>
-            <h3>Real-Time Detection</h3>
-            <p>Millisecond analysis before prompts reach your AI.</p>
-            <span class="tag">&lt;10ms latency</span>
-          </div>
-
-          <div class="capability">
-            <div class="icon">🛡️</div>
-            <h3>Smart Classification</h3>
-            <p>Risk scoring with safe, risky, or suspicious labels.</p>
-            <span class="tag">99% accuracy</span>
-          </div>
-
-          <div class="capability">
-            <div class="icon">🧱</div>
-            <h3>Multi-Layer Protection</h3>
-            <p>Detects overrides, role hacks, encoding attacks.</p>
-            <span class="tag">20+ patterns</span>
-          </div>
-
-          <div class="capability">
-            <div class="icon">🔌</div>
-            <h3>Simple API Integration</h3>
-            <p>Drop-in protection with just a few lines of code. RESTful API works with any programming language and AI platform.</p>
-            <span class="tag">5 min setup</span>
-          </div>
-
-          <div class="capability">
-            <div class="icon">📊</div>
-            <h3>Detailed Analytics</h3>
-            <p>Comprehensive logs and reporting show threat patterns, attack attempts, and system health metrics in real-time.</p>
-            <span class="tag">Real-time dashboards</span>
-          </div>
-
-          <div class="capability">
-            <div class="icon">🔒</div>
-            <h3>Privacy First</h3>
-            <p>No data storage or logging of actual prompt content. Only metadata and risk scores are retained for security monitoring.</p>
-            <span class="tag">GDPR compliant</span>
-          </div>
+        <div class="right">
+            <button id="darkToggle" class="icon-btn" aria-label="Toggle dark mode">🌙</button>
         </div>
-      </section>
-    </section>
+    </nav>
 
-    <!-- ===== USE CASES SECTION ===== -->
-    <section id="usecasesSection" class="section" style="display:none;">
-      <section class="card usecase-card">
-        <h2>🏢 Industry Use Cases</h2>
-        <div class="usecase-grid">
-          <div class="usecase"><strong>🏥 Healthcare</strong><p>Protect patient data and medical AI systems.</p></div>
-          <div class="usecase"><strong>💰 Finance</strong><p>Secure financial assistants against fraud and leaks.</p></div>
-          <div class="usecase"><strong>🎓 Education</strong><p>Prevent AI tutoring from bypassing test rules.</p></div>
-          <div class="usecase"><strong>🏢 Enterprise</strong><p>Block internal data extraction attempts.</p></div>
-          <div class="usecase"><strong>📞 Customer Support</strong><p>Keep AI responses safe and compliant.</p></div>
-          <div class="usecase"><strong>🌐 Social Platforms</strong><p>Prevent prompt abuse and manipulation.</p></div>
-          <div class="usecase"><strong>🏛️ Government</strong><p>Secure sensitive AI interactions.</p></div>
-          <div class="usecase"><strong>🧰 Dev Tools</strong><p>Protect AI APIs from injection attacks.</p></div>
+    <!-- ===== Hero ===== -->
+    <header class="hero">
+        <div class="hero-inner container-lg">
+            <div class="hero-text">
+                <h1 id="heroTitle" aria-live="polite"></h1>
+                <p>
+                    Real-time protection for your AI — detect prompt injection, role overrides, hidden commands, 
+                    and data-exfiltration attempts before they reach your model.
+                </p>
+                <div class="hero-ctas">
+                    <button id="heroTryBtn" class="hero-btn coral-btn">🚀 Try Promptium Now</button>
+                    <a class="secondary-link" href="#" data-section="features">Learn more</a>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="card mini-card">
+                    <h4>Live Demo</h4>
+                    <p>Type a prompt in the demo to see risk classification and analytics in real-time.</p>
+                    <div class="mini-cta-row">
+                        <button id="heroTrySmall" class="small-btn coral-btn">Try demo</button>
+                        <div class="badge">Beta</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
-    </section>
-  </main>
+    </header>
 
-  <!-- Toast -->
-  <div id="toast" class="toast">Prompt checked successfully!</div>
+    <!-- ===== Main ===== -->
+    <main class="container">
 
-  <script src="script.js"></script>
+        <!-- DEMO INTRO -->
+        <section id="demoIntroSection" class="section active">
+            <section class="card demo-intro-card">
+                <h2>🛡 What Promptium Detects</h2>
+                <p>
+                    Promptium protects your AI by detecting prompt injection attacks such as overrides, 
+                    role hacks, encoding attacks, and attempts to leak or manipulate data. It analyzes 
+                    prompts in real-time with smart classification to identify safe, risky, and suspicious 
+                    inputs before they reach your AI.
+                </p>
+                <button id="tryNowBtn" class="primary-btn coral-btn">Try Now</button>
+            </section>
+
+            <section class="card demo-steps-card">
+                <h2>🧪 How to Use Promptium</h2>
+                <div class="demo-steps-grid">
+                    <div class="demo-step">
+                        <h3>Step 1: Enter Your Prompt</h3>
+                        <p>Type any prompt you want to analyze for security threats</p>
+                    </div>
+                    <div class="demo-step">
+                        <h3>Step 2: Analyze the Prompt</h3>
+                        <p>Our AI firewall scans for malicious patterns and injection attempts</p>
+                    </div>
+                    <div class="demo-step">
+                        <h3>Step 3: Review Results</h3>
+                        <p>Get detailed threat analysis with confidence scores</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- DEMO -->
+        <section id="demoSection" class="section" style="display:none;">
+            <section class="card input-card">
+                <h2>🔍 Enter your Prompt</h2>
+                <textarea id="promptInput" placeholder="Type or paste any prompt to analyze..."></textarea>
+                
+                <div class="examples-section">
+                    <h3>Try Examples:</h3>
+                    <div class="example-buttons">
+                        <button onclick="loadExample('safe')" class="example-btn safe">✅ Safe Prompt</button>
+                        <button onclick="loadExample('injection')" class="example-btn threat">🚨 Prompt Injection</button>
+                        <button onclick="loadExample('jailbreak')" class="example-btn threat">⚠️ Jailbreak</button>
+                        <button onclick="loadExample('exfiltration')" class="example-btn threat">🔓 Data Exfiltration</button>
+                    </div>
+                </div>
+                
+                <div class="input-row">
+                    <button id="analyzeBtn" class="primary-btn coral-btn">🔎 Scan Prompt</button>
+                    <div id="loadingSpinner" class="spinner">⏳ Checking...</div>
+                </div>
+                <div id="resultBox" class="result-box" role="status"></div>
+            </section>
+
+            <section class="card chart-card">
+                <div class="chart-top">
+                    <h2>📊 Prompt Classification Stats</h2>
+                    <div id="chartSummary" class="chart-summary">Safe: 0 | Risky: 0 | Suspicious: 0</div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="promptChart" aria-label="Prompt classification chart" role="img"></canvas>
+                </div>
+            </section>
+
+            <section class="card history-card">
+                <div class="history-head">
+                    <h2>📝 Prompt History</h2>
+                    <div>
+                        <button id="clearHistoryBtn" class="danger-btn">🗑 Clear History</button>
+                    </div>
+                </div>
+                <ul id="historyList" class="history-list" aria-live="polite"></ul>
+            </section>
+        </section>
+
+        <!-- FEATURES -->
+        <section id="featuresSection" class="section" style="display:none;">
+            <section class="card capabilities-card">
+                <h2>⚙ Key Capabilities</h2>
+                <div class="capabilities-grid">
+                    <div class="capability">
+                        <div class="icon">⚡</div>
+                        <h3>Real-Time Detection</h3>
+                        <p>Millisecond analysis before prompts reach your AI.</p>
+                        <span class="tag">&lt;10ms latency</span>
+                    </div>
+                    <div class="capability">
+                        <div class="icon">🛡</div>
+                        <h3>Smart Classification</h3>
+                        <p>Risk scoring with safe, risky, or suspicious labels.</p>
+                        <span class="tag">99% accuracy</span>
+                    </div>
+                    <div class="capability">
+                        <div class="icon">🧱</div>
+                        <h3>Multi-Layer Protection</h3>
+                        <p>Detects overrides, role hacks, encoding attacks.</p>
+                        <span class="tag">20+ patterns</span>
+                    </div>
+                    <div class="capability">
+                        <div class="icon">🔌</div>
+                        <h3>Simple API Integration</h3>
+                        <p>Drop-in protection with just a few lines of code.</p>
+                        <span class="tag">5 min setup</span>
+                    </div>
+                    <div class="capability">
+                        <div class="icon">📊</div>
+                        <h3>Detailed Analytics</h3>
+                        <p>Comprehensive logs and reporting show threat patterns.</p>
+                        <span class="tag">Real-time dashboards</span>
+                    </div>
+                    <div class="capability">
+                        <div class="icon">🔒</div>
+                        <h3>Privacy First</h3>
+                        <p>No storage of actual prompt content. Only metadata and scores retained.</p>
+                        <span class="tag">GDPR friendly</span>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- USE CASES -->
+        <section id="usecasesSection" class="section" style="display:none;">
+            <section class="card usecase-card">
+                <h2>🏢 Industry Use Cases</h2>
+                <div class="usecase-grid">
+                    <div class="usecase"><strong>🏥 Healthcare</strong><p>Protect patient data and medical AI systems.</p></div>
+                    <div class="usecase"><strong>💰 Finance</strong><p>Secure financial assistants against fraud and leaks.</p></div>
+                    <div class="usecase"><strong>🎓 Education</strong><p>Prevent AI tutoring from bypassing test rules.</p></div>
+                    <div class="usecase"><strong>🏢 Enterprise</strong><p>Block internal data extraction attempts.</p></div>
+                    <div class="usecase"><strong>📞 Customer Support</strong><p>Keep AI responses safe and compliant.</p></div>
+                    <div class="usecase"><strong>🌐 Social Platforms</strong><p>Prevent prompt abuse and manipulation.</p></div>
+                </div>
+            </section>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Protected by Promptium AI Firewall | Hybrid Detection: AI Model + Pattern Matching</p>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Prompt checked successfully!</div>
+
+    <!-- YOUR ORIGINAL BACKEND-CONNECTED SCRIPT -->
+    <script src="script.js"></script>
 </body>
 </html>
