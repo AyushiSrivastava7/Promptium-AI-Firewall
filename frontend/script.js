@@ -43,7 +43,7 @@ function classifyPrompt() {
   const resultBox = document.getElementById("resultBox");
   const spinner = document.getElementById("loadingSpinner");
 
-  if (!prompt) return showToast("⚠ Please enter a prompt.");
+  if (!prompt) return showToast("⚠️ Please enter a prompt.");
 
   resultBox.textContent = "";
   spinner.style.display = "block";
@@ -60,7 +60,7 @@ function classifyPrompt() {
 
     const labelMap = {
       safe: { text: "✅ Safe Prompt", color: "#4CAF50" },
-      risky: { text: "⚠ Risky Prompt", color: "#FFC107" },
+      risky: { text: "⚠️ Risky Prompt", color: "#FFC107" },
       suspicious: { text: "🚨 Suspicious Prompt", color: "#F44336" }
     };
 
@@ -76,7 +76,6 @@ function classifyPrompt() {
     li.style.color = resultBox.style.color;
     document.getElementById("historyList").prepend(li);
 
-
     showToast("✅ Prompt checked successfully!");
   }, 800);
 }
@@ -84,7 +83,7 @@ function classifyPrompt() {
 // ================= History & Toast =================
 function clearHistory() {
   document.getElementById("historyList").innerHTML = "";
-  showToast("🗑 Prompt history cleared.");
+  showToast("🗑️ Prompt history cleared.");
 }
 
 function showToast(msg) {
